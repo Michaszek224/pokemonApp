@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokemony</title>
+</head>
+<body>
+    <h1>Welcome to Pokemony!</h1>
+    <p>This is a simple web application to manage your Pokémon collection.</p>
+    <form action="/add" method="post">
+        <label for="pokemon_name">Enter Pokémon Name:</label>
+        <input type="text" id="pokemon_name" name="pokemon_name" placeholder="Name" required> <br>
+        <label for="pokemon_type">Enter Pokémon Type:</label>
+        <input type="text" id="pokemon_type" name="pokemon_type" placeholder="Type (e.g., Fire, Water)" required> <br>
+        <label for="pokemon_level">Enter Pokémon Level:</label>
+        <input type="number" id="pokemon_level" name="pokemon_level" placeholder="Level" required> <br>
+        <button type="submit">Add Pokémon</button>
+    </form>
+</body>
+</html>
