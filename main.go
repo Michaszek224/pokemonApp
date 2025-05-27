@@ -30,7 +30,13 @@ func main() {
 }
 
 func handlerIndex(w http.ResponseWriter, r *http.Request) {
-	err := templ.ExecuteTemplate(w, "index.html", nil)
+	pokemons, err := db.GetAllPokemons()
+	if err != nil {
+		http.Error(w, "Error fetching pokemons: "+err.Error(), http.StatusInternalServerError)
+		log.Printf("Error fetching pokemons: %v", err)
+		return
+	}
+	err = templ.ExecuteTemplate(w, "index.html", pokemons)
 	if err != nil {
 		http.Error(w, "Error executing template: "+err.Error(), http.StatusInternalServerError)
 		log.Printf("Error executing template: %v", err)

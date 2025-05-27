@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"pokemon/models"
 
 	_ "github.com/lib/pq"
 )
@@ -59,4 +60,27 @@ func AddPokemon(name, pokemonType string, level int) error {
 	}
 	log.Printf("Pokemon %s added successfully", name)
 	return nil
+}
+
+func GetAllPokemons() ([]models.Pokemon, error) {
+	rows, err := DB.Query("SELECT id, name, type, level FROM pokemon ORDER BY id ASC")
+	if err != nil {
+		return nil, fmt.Errorf("error querying pokemon: %w", err)
+	}
+	defer rows.Close()
+
+	var pokemons []models.Pokemon
+	for rows.Next() {
+		var p models.Pokemon
+		if err := rows.Scan(&p.ID, &p.Name, &p.Type, &p.Level); err != nil {
+			return nil, fmt.Errorf("error scanning pokemon row: %w", err)
+		}
+		pokemons = append(pokemons, p)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, fmt.Errorf("error iterating through pokemon rows: %w", err)
+	}
+
+	return pokemons, nil
 }
