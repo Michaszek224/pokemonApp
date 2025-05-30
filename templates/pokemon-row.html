@@ -1,0 +1,14 @@
+{{define "pokemon-row.html"}}
+<tr>
+    <td>{{.ID}}</td>
+    <td>{{.Name}}</td>
+    <td>{{.Type}}</td>
+    <td>{{.Level}}</td>
+    <td>
+        <button hx-delete="/delete/{{.ID}}" hx-target="closest tr" hx-swap="outerHTML">Delete</button>
+    </td>
+    <td>
+        <button hx-get="/edit/{{.ID}}" hx-target="closest tr" hx-swap="outerHTML">Edit</button>
+    </td>
+</tr>
+{{end}}

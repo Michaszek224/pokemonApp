@@ -84,3 +84,49 @@ func GetAllPokemons() ([]models.Pokemon, error) {
 
 	return pokemons, nil
 }
+
+func GetPokemonById(id int) (models.Pokemon, error) {
+	var p models.Pokemon
+	query := `SELECT id, name, type, level FROM POKEMON WHERE id = $1`
+	row := DB.QueryRow(query, id)
+	err := row.Scan(&p.ID, &p.Name, &p.Type, &p.Level)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return p, fmt.Errorf("pokemon with ID %d not found", id)
+		}
+		return p, fmt.Errorf("error getting pokemon by ID: %w", err)
+	}
+	return p, nil
+}
+
+func UpdatePokemon(p models.Pokemon) error {
+	query := `UPDATE POKEMON SET name = $1, type = $2, level = $3 WHERE id = $4`
+	_, err := DB.Exec(query, p.Name, p.Type, p.Level, p.ID)
+	if err != nil {
+		log.Printf("Error updating pokemon: %v", err)
+		return err
+	}
+	log.Printf("POKEMON with id= %d updated succesfully", p.ID)
+	return nil
+}
+
+func DeletePokemon(id int) error {
+	query := `DELETE FROM pokemon WHERE id = $1`
+	res, err := DB.Exec(query, id)
+	if err != nil {
+		log.Printf("Error deleting pokemon: %v", err)
+		return err
+	}
+
+	rowsAffected, err := res.RowsAffected()
+	if err != nil {
+		log.Printf("Error getting rows affected: %v", err)
+		return err
+	}
+	if rowsAffected == 0 {
+		return fmt.Errorf("no pokemon found with id= %v to delete", id)
+	}
+
+	log.Printf("Deleted pokemon with id= %d", id)
+	return nil
+}

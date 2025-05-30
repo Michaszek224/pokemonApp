@@ -1,0 +1,16 @@
+{{define "edit-pokemon-row.html"}}
+<tr>
+    <td colspan="6">
+        <form hx-put="/edit/{{.ID}}" hx-target="closest tr" hx-swap="outerHTML">
+            <input type="hidden" name="id" value="{{.ID}}">
+            <label>Name:</label>
+            <input type="text" name="pokemon_name" value="{{.Name}}" required>
+            <label>Type:</label>
+            <input type="text" name="pokemon_type" value="{{.Type}}" required>
+            <label>Level:</label>
+            <input type="number" name="pokemon_level" value="{{.Level}}" required>
+            <button type="submit">Save</button>
+        </form>
+    </td>
+</tr>
+{{end}}
