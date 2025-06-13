@@ -6,6 +6,6 @@
 - docker
 
 # To run:
-git clone https://github.com/Michaszek224/pokemonApp
-cd pokemonApp
-docker compose up --build
+git clone https://github.com/Michaszek224/pokemonApp <br>
+cd pokemonApp <br>
+docker compose up --build <br>
